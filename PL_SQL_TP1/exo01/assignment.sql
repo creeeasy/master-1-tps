@@ -107,3 +107,60 @@ begin
    );
    dbms_output.put_line('Client inserted into ClientRouge.');
 end;
+
+
+
+
+-- creer un trigger alert vidange qui interdit
+--  la reservation des voitures dans le kilo >
+--   100 000 km de plus de 4 jours. 
+
+
+create or replace trigger alert_vidange before
+   insert on reserver
+   for each row
+declare
+   number_jours_reserved integer;
+   kilo                  number;
+begin
+   select kilom
+     into kilo
+     from voiture
+    where matricule = :new.matricule;
+   number_jours_reserved := :new.number_jours_reserved;
+   if
+      kilo > 100000
+      and number_jours_reserved > 4
+   then
+      raise_application_error(
+         -20001,
+         'Il est interdit de reserver cette voiture car nb reservation > 4.'
+      );
+   end if;
+end;
+/
+
+create or replace trigger alert_vidange before
+   insert on reserver
+   for each row
+declare
+   v_kilom_voiture voiture.kilom%type;
+   v_nb_jours      reserver.nb_jours%type;
+begin
+   select kilom
+     into v_kilom_voiture
+     from voiture
+    where matricule = :new.matricule;
+
+   v_nb_jours := :new.nb_jours;
+   if
+      v_kilom_voiture > 100000
+      and v_nb_jours > 4
+   then
+      raise_application_error(
+         -20001,
+         'ERROR DE RESERVATION CAR > 4.'
+      );
+   end if;
+end;
+/
