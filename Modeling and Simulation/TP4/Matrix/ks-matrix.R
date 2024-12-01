@@ -1,5 +1,7 @@
+source("Algorithms/gcl-algo.R")
 kolmogorov_critical_values <- function() {
-  n_values <- 1:15
+  random_numbers <- length(gclNormalized())
+  n_values <- 1:random_numbers
   alpha_values <- c(0.2, 0.15, 0.1, 0.05, 0.01)
   critical_matrix <- matrix(nrow = length(n_values), ncol = length(alpha_values))
 

@@ -1,7 +1,8 @@
+source("Algorithms/gcl-algo.R")
 source("Algorithms/test-uniformity-chi-deux-algo.R")
 source("Algorithms/test-uniformity-kolmogorov-algo.R")
 source("Algorithms/test-independence-runs-up-and-runs-test-algo.R")
-source("consts.R")
+random_numbers <- gclNormalized()
 # il est pre-defini dans le fichier consts.R
 
 # commencant par l'uniformite
