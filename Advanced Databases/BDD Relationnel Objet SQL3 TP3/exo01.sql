@@ -16,13 +16,6 @@ create type tadresse as object (
 create type ttelephone as
    varray(10) of integer;
 
-create type tpersonne as object (
-      nss            integer,
-      nom            tnom,
-      date_naissance date,
-      adresse        tadresse,
-      telephone      ttelephone
-) not final;
 
 -- la question deuxieme 
 create or replace type tpersonne as object (
@@ -59,6 +52,7 @@ create table personne of tpersonne (
 );
 
 -- la question quatrieme 
+
 insert into personne values ( 123456789, -- NSS
                               tnom(
                                  'ADIMI',
@@ -100,47 +94,40 @@ create or replace type tetudiant under tpersonne (
       department varchar2(100),
       diplome    t_diplome_set
 );
--- create table etudiant of tetudiant (
---    primary key ( n_etudiant )
--- )
--- nested table diplome store as diplome_nt;
-
--- create table enseignant of tensignant (
---    primary key ( employee_id )
--- );
 
 -- deuxieme question 
+
 insert into personne values ( tetudiant(
-   123123123, -- NSS
+   123123123,
    tnom(
       'MERABETI',
       'Adam'
-   ), -- Name
+   ),
    to_date('1985-05-01',
-          'YYYY-MM-DD'), -- Date of Birth
+          'YYYY-MM-DD'),
    tadresse(
       'Didouche Mourad',
       null,
       'Alger',
       'Algérie',
       null
-   ), -- Address
-   ttelephone(), -- Empty phone numbers (no phone)
-   999, -- Student number
-   'Informatique', -- Department
-   t_diplome_set() -- No diplomas
+   ),
+   ttelephone(),
+   999,
+   'Informatique',
+   t_diplome_set()
 ) );
 
 -- troiseme question 
 
 insert into personne values ( tensignement(
-   666999666,                                      -- NSS
+   666999666,
    tnom(
       'LAMARI',
       'Meriem'
-   ),                        -- Nom (Family Name and First Name)
+   ),
    to_date('1975-06-04',
-             'YYYY-MM-DD'),            -- Date of Birth
+             'YYYY-MM-DD'),
    tadresse(
       '99 Boulevard Colonel Amirouche',
       '',
@@ -148,12 +135,12 @@ insert into personne values ( tensignement(
       'Algérie',
       null
    ), -- Adresse
-   ttelephone(),                                    -- Telephone (empty array)
-   777,                                           -- Employee Number
+   ttelephone(),
+   777,
    tcompte(
       310123456789,
       'BDA'
-   )                    -- Bank Account (Account Number and Bank)
+   )
 ) );
 
 
@@ -161,13 +148,13 @@ insert into personne values ( tensignement(
 
 
 insert into personne values ( tensignement(
-   556978566,                                      -- NSS
+   556978566,
    tnom(
       'SALEMI',
       'Ahmed'
-   ),                        -- Nom (Family Name and First Name)
+   ),
    to_date('1965-06-04',
-             'YYYY-MM-DD'),            -- Date of Birth
+             'YYYY-MM-DD'),
    tadresse(
       '99 Ismail Yafsah',
       '',
@@ -175,12 +162,12 @@ insert into personne values ( tensignement(
       'Algérie',
       null
    ), -- Adresse
-   ttelephone(),                                    -- Telephone (empty array)
-   787,                                           -- Employee Number
+   ttelephone(),
+   787,
    tcompte(
       330123489756,
       'BEA'
-   )                    -- Bank Account (Account Number and Bank)
+   )
 ) );
 -- cinqieme question 
 update personne
@@ -209,12 +196,20 @@ select p.nom.nom_famille,
 
 -- huitieme question 
 
-select distinct p.nss,
-                p.nom.nom_famille,
-                t.column_value
-  from personne p,
-       table ( p.telephone ) t
- order by p.nss;
+select p1.nom.nom_famille as nom_famille_1,
+       p1.nom.prenom as prenom_1,
+       p2.nom.nom_famille as nom_famille_2,
+       p2.nom.prenom as prenom_2,
+       t1.column_value as shared_phone_number
+  from personne p1,
+       table ( p1.telephone ) t1,
+       personne p2,
+       table ( p2.telephone ) t2
+ where t1.column_value = t2.column_value
+   and p1.nss < p2.nss
+ order by p1.nom.nom_famille,
+          p2.nom.nom_famille;
+
 
 
 --  PART 03 
@@ -231,4 +226,64 @@ create type t_evaluation as object (
       note    integer,       -- Grade (e.g., 85.50)
       evadate date                -- Date of the evaluation
 );
--- PART 03 N'AI PAS TERMINE 
+-- PART 03
+
+create type tcours;
+create type tevaluation;
+create type t_set_ref_cours as
+   table of ref tcours;
+create type t_set_ref_evaluation as
+   table of ref tevaluation;
+
+alter type tensignement add attribute enseignant_cours ref tcours
+   cascade;
+
+alter type tetudiant add attribute etudiant_cours t_set_ref_cours
+   cascade;
+
+alter type tetudiant add attribute etudiant_evaluation t_set_ref_evaluation
+   cascade;
+
+
+create type t_set_ref_etudiant as
+   table of ref tetudiant;
+create type t_set_ref_enseignant as
+   table of ref tensignement;
+
+create or replace type tcours as object (
+      numero_cours     varchar2(5),
+      libelle          varchar2(50),
+      credit           integer,
+      est_pre_requis   t_set_ref_cours,
+      a_pre_requis     t_set_ref_cours,
+      cours_enseignant t_set_ref_enseignant,
+      cours_evaluation t_set_ref_evaluation,
+      cours_etudiant   t_set_ref_etudiant
+);
+create or replace type tevaluation as object (
+      evaluation_cours    ref tcours,
+      evaluation_etudiant ref tetudiant,
+      date_evaluation     date,
+      note                number(
+         4,
+         2
+      )
+);
+
+-- creation de la table 
+-- la table cours 
+create table cours of tcours (
+   primary key ( numero_cours )
+)
+   nested table est_pre_requis store as table_est_pre_requis,
+   nested table a_pre_requis store as table_a_pre_requis,
+   nested table cours_etudiant store as table_cours_etudiant,
+   nested table cours_enseignant store as table_cours_enseignant,
+   nested table cours_evaluation store as table_cours_evaluation;
+   -- la table evaluation 
+create table evaluation of tevaluation (
+   foreign key ( evaluation_cours )
+      references cours,
+   foreign key ( evaluation_etudiant )
+      references personne
+);
