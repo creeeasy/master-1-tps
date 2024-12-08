@@ -14,6 +14,7 @@ chi_deux_critical_values <- function() {
   return(chi_squared_table)
 
 }
+chi_deux_critical_values()
 findTheCriticalValueChiDeuxMatrix <- function(df, alpha) {
   chi_matrix <- chi_deux_critical_values()
   df_index <- match(df, rownames(chi_matrix))

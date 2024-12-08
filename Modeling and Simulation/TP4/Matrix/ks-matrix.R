@@ -16,6 +16,7 @@ kolmogorov_critical_values <- function() {
 
   return(critical_matrix)
 }
+kolmogorov_critical_values()
 findTheCriticalValueKsMatrix <- function(n, alpha) {
   ks_matrix <- kolmogorov_critical_values()
   n_index <- match(n, rownames(ks_matrix))
