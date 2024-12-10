@@ -1,0 +1,52 @@
+db.users.count()
+
+    db.movies.count()
+
+db.users.find({name: "Clifford Johnathan"}, {name: 1, occupation: 1})
+db.users.count({age: {$gte: 18, $lte: 30}})
+
+db.users.count({age: {$gte: 18, $lte: 30}})
+db.users.count({
+  occupation: { $in: ["artist", "scientist"] }
+})
+
+db.users.find({occupation: "writer", gender: "F"})
+  .sort({age: -1})
+  .limit(10)
+  .projection({name: 1, age: 1})
+
+db.users.distinct("occupation")
+
+db.users.insertOne({
+  name: "Tekfi Mohammed",
+  age: 21,
+  gender: "M",
+  occupation: "informaticien"
+})
+db.users.find({"name":"Tekfi Mohammed"})
+db.movies.find({"title":"Toy Story (1995)"})
+
+db.users.updateOne(
+  { name: "Tekfi Mohammed" },
+  { $set: { movies: [{ movieId: 1, timestamp: Math.round(new Date().getTime() / 1000) }] } }
+)
+
+db.users.deleteOne({name: "Barry Erin"})
+
+db.users.updateMany(
+  { occupation: "programmer" },
+  { $set: { occupation: "developer" } }
+)
+
+db.movies.count({
+  releaseYear: { $gte: 1984, $lte: 1992 }
+})
+
+db.movies.count({
+  genres: "Horror"
+})
+
+
+db.movies.count({
+  genres: { $all: ["Musical", "Romance"] }
+})
