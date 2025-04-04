@@ -1,0 +1,87 @@
+@relation Ulcerative_colitis
+
+
+
+
+@attribute age {'10-19','20-29','30-39','40-49','50-59','60-69','70-79'}
+
+@attribute gender {'male','female'}
+
+@attribute type{'Ulcerative_proctitis','Proctosigmoiditis','left_sided_colitis','Pancolitis','Fulminant_Colitis'}
+
+@attribute pain {'hight_crampy','medium_crampy','low_crampy'}
+
+@attribute death {'yes','no'}
+
+
+@attribute class {'no_recover','recover'}
+
+       
+
+@data
+10-19	male	left_sided_colitis		low_crampy		no 	recover
+10-19	male	Ulcerative_proctitis 	hight_crampy	no 	no_recover
+10-19	female	left_sided_colitis		hight_crampy 	no 	no_recover
+10-19	female 	Pancolitis 				hight_crampy	yes	no_recover
+10-19	female	Pancolitis 				low_crampy 		no 	recover
+
+20-29	male	Ulcerative_proctitis	low_crampy 	    no 	recover
+20-29	male 	Ulcerative_proctitis 	medium_crampy   no 	no_recover
+20-29	male 	Proctosigmoiditis 		hight_crampy	yes	no_recover
+20-29	male 	left_sided_colitis 		low_crampy 		no 	recover
+20-29	male 	Fulminant_Colitis 		hight_crampy 	no 	recover
+20-29	male 	Proctosigmoiditis 		low_crampy		no 	no_recover
+20-29	female  left_sided_colitis 		low_crampy 		no 	recover
+20-29	female 	Fulminant_Colitis		hight_crampy	yes no_recover
+
+30-39	male	Ulcerative_proctitis 	medium_crampy	no 	no_recover
+30-39	male	Ulcerative_proctitis	low_crampy		no 	recover
+30-39	male	left_sided_colitis  	hight_crampy	no 	no_recover
+30-39	male	Proctosigmoiditis 		low_crampy 		no 	no_recover
+30-39	male	Proctosigmoiditis 		hight_crampy 	yes	no_recover 
+30-39	male	left_sided_colitis 		low_crampy 		no 	recover
+30-39	male	left_sided_colitis 		hight_crampy 	no 	no_recover
+30-39	male    Fulminant_Colitis 		hight_crampy 	yes	no_recover
+30-39	male 	Pancolitis 				low_crampy 		no 	recover 
+30-39	male 	Fulminant_Colitis		hight_crampy 	yes	no_recover
+30-39	male 	Pancolitis 				medium_crampy 	yes recover
+
+30-39	female	Pancolitis 				low_crampy 		no 	recover
+30-39	female 	Pancolitis 				hight_crampy 	yes	no_recover
+30-39	female 	Pancolitis 				medium_crampy 	no 	no_recover 
+30-39	female	Fulminant_Colitis 		hight_crampy 	yes no_recover
+30-39	female	left_sided_colitis 		low_crampy 		no 	no_recover
+30-39	female 	left_sided_colitis 		low_crampy 		no 	recover
+
+30-39	female  Fulminant_Colitis 		low_crampy		no  no_recover
+30-39   female  Proctosigmoiditis  		low_crampy 		no 	recover 
+
+40-49	male 	Ulcerative_proctitis  	low_crampy 		no 	recover
+40-49	male  	Pancolitis 				low_crampy 		no 	no_recover
+40-49	male 	Fulminant_Colitis 		hight_crampy    yes no_recover
+40-49	male 	Proctosigmoiditis 		hight_crampy    no 	no_recover
+40-49	female  Pancolitis 				low_crampy  	no 	recover
+40-49	female  Fulminant_Colitis       hight_crampy    yes	no_recover
+40-49	female 	left_sided_colitis 		hight_crampy	yes	no_recover
+40-49	female  left_sided_colitis 		low_crampy 		no  recover
+40-49 	female 	Ulcerative_proctitis 	medium_crampy 	no 	recover
+
+
+50-59	male 	left_sided_colitis 		low_crampy 		no  no_recover 	
+50-59	male 	left_sided_colitis 		hight_crampy    yes	no_recover
+50-59	female  Pancolitis 				low_crampy  	no  recover
+50-59	female  Fulminant_Colitis 		hight_crampy    yes no_recover
+50-59	female 	Ulcerative_proctitis    hight_crampy    no  no_recover 
+
+60-69	male 	Pancolitis 				hight_crampy    no 	no_recover
+60-69	male    left_sided_colitis  	low_crampy 		no 	recover
+60-69	female 	Fulminant_Colitis 		hight_crampy 	yes no_recover
+60-69	female 	Pancolitis 				hight_crampy 	no 	no_recover
+
+
+70-79	male    Fulminant_Colitis 		hight_crampy 	yes no_recover
+70-79	female  Fulminant_Colitis 		hight_crampy 	no  no_recover
+
+
+
+
